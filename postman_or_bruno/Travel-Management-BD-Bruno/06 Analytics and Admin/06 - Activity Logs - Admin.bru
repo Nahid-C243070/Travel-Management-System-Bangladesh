@@ -1,0 +1,25 @@
+meta {
+  name: Activity Logs - Admin
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/admin/logs?page=1&limit=50
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}

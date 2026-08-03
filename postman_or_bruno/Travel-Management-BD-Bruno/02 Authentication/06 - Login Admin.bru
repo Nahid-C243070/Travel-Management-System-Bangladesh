@@ -1,0 +1,46 @@
+meta {
+  name: Login Admin
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/auth/login
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "email": "{{adminEmail}}",
+    "password": "{{adminPassword}}"
+  }
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+script:post-response {
+  const json = res.body;
+  if (json && json.data) {
+    bru.setVar("accessToken", json.data.accessToken);
+    bru.setVar("refreshToken", json.data.refreshToken);
+    bru.setVar("adminId", json.data.user.id);
+    try {
+      bru.setEnvVar("accessToken", json.data.accessToken, { persist: true });
+      bru.setEnvVar("refreshToken", json.data.refreshToken, { persist: true });
+      bru.setEnvVar("adminId", json.data.user.id, { persist: true });
+    } catch (e) {}
+  }
+}

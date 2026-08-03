@@ -1,0 +1,60 @@
+meta {
+  name: Create Trip Plan
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/trips
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "title": "Postman Dhaka Heritage Trip",
+    "startLatitude": 23.8103,
+    "startLongitude": 90.4125,
+    "startAddress": "Dhaka",
+    "startDate": "2026-08-10",
+    "endDate": "2026-08-10",
+    "vehicleId": "50000000-0000-4000-8000-000000000001",
+    "guideId": "60000000-0000-4000-8000-000000000003",
+    "totalDistanceKm": 25,
+    "estimatedCost": 1500,
+    "notes": "Created through Postman",
+    "stops": [
+      {
+        "spotId": "40000000-0000-4000-8000-000000000011",
+        "segmentDistanceKm": 10
+      },
+      {
+        "spotId": "40000000-0000-4000-8000-000000000012",
+        "segmentDistanceKm": 5
+      }
+    ]
+  }
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+script:post-response {
+  const json = res.body;
+  if (json && json.data && json.data.id) {
+    bru.setVar("tripId", json.data.id);
+    try { bru.setEnvVar("tripId", json.data.id, { persist: true }); } catch (e) {}
+  }
+}

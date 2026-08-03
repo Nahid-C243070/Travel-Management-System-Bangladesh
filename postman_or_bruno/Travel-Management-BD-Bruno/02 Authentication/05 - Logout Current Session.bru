@@ -1,0 +1,32 @@
+meta {
+  name: Logout Current Session
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/auth/logout
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "refreshToken": "{{refreshToken}}"
+  }
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}

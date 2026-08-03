@@ -1,0 +1,39 @@
+meta {
+  name: Refresh Access Token
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/auth/refresh
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "refreshToken": "{{refreshToken}}"
+  }
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+script:post-response {
+  const json = res.body;
+  if (json && json.data && json.data.accessToken) {
+    bru.setVar("accessToken", json.data.accessToken);
+    try { bru.setEnvVar("accessToken", json.data.accessToken, { persist: true }); } catch (e) {}
+  }
+}

@@ -1,0 +1,33 @@
+meta {
+  name: Complete Trip
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/api/trips/{{tripId}}/status
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "status": "COMPLETED",
+    "actualCost": 1600
+  }
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}

@@ -1,0 +1,57 @@
+meta {
+  name: Generate Smart Route
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/api/routes/recommend
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "startLat": 23.8103,
+    "startLng": 90.4125,
+    "districtId": "{{dhakaDistrictId}}",
+    "interests": [
+      "heritage",
+      "city attraction"
+    ],
+    "maxStops": 3,
+    "budget": 500,
+    "includeNew": true,
+    "passengers": 4,
+    "vehiclePriority": "balanced",
+    "strategy": "balanced"
+  }
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}
+
+script:post-response {
+  const json = res.body;
+  if (json && json.data) {
+    bru.setVar("recommendationId", json.data.recommendationId);
+    try { bru.setEnvVar("recommendationId", json.data.recommendationId, { persist: true }); } catch (e) {}
+    if (json.data.route && json.data.route.stops && json.data.route.stops.length) {
+      const firstSpotId = json.data.route.stops[0].spotId;
+      bru.setVar("spotId", firstSpotId);
+      try { bru.setEnvVar("spotId", firstSpotId, { persist: true }); } catch (e) {}
+    }
+  }
+}

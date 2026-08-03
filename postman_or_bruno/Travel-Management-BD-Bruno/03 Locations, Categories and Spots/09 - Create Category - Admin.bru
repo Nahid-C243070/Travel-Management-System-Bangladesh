@@ -1,0 +1,35 @@
+meta {
+  name: Create Category - Admin
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/categories
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "name": "River Cruise Demo {{$randomUUID}}",
+    "slug": "river-cruise-demo-{{$randomUUID}}",
+    "description": "Demo category created from Postman",
+    "icon": "ship"
+  }
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}

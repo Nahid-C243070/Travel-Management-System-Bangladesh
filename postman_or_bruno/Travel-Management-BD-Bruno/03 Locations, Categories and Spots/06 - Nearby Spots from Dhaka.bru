@@ -1,0 +1,21 @@
+meta {
+  name: Nearby Spots from Dhaka
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/spots?lat=23.8103&lng=90.4125&radiusKm=100
+  body: none
+  auth: none
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}

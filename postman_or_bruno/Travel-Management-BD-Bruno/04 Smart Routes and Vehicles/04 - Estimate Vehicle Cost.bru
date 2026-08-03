@@ -1,0 +1,33 @@
+meta {
+  name: Estimate Vehicle Cost
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/vehicles/estimate-cost
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "distanceKm": 120,
+    "passengers": 4,
+    "priority": "cheapest"
+  }
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}

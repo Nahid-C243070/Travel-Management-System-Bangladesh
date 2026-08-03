@@ -1,0 +1,25 @@
+meta {
+  name: Analytics Overview - Admin
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/analytics/overview
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{accessToken}}
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}

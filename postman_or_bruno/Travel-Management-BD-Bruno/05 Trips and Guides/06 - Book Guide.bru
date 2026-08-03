@@ -1,0 +1,36 @@
+meta {
+  name: Book Guide
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/guides/bookings
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+  Authorization: Bearer {{accessToken}}
+}
+
+body:json {
+  {
+    "guideId": "60000000-0000-4000-8000-000000000003",
+    "tripPlanId": "{{tripId}}",
+    "bookingDate": "2026-08-10",
+    "days": 1,
+    "notes": "English-speaking guide preferred."
+  }
+}
+
+tests {
+  test("Status code is successful", function () {
+    expect(res.status).to.be.oneOf([200, 201]);
+  });
+
+  test("Response has success=true", function () {
+    expect(res.body.success).to.equal(true);
+  });
+}
