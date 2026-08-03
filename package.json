@@ -1,0 +1,30 @@
+{
+  "name": "travel-management-system-bangladesh",
+  "version": "1.0.0",
+  "description": "Bangladesh travel management backend with smart routing, alternative routes, vehicle recommendations, guides, analytics and MySQL/XAMPP support.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "db:setup": "node scripts/setup-database.js",
+    "test": "node --test",
+    "check": "find src scripts tests -name '*.js' -print0 | xargs -0 -n1 node --check"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.14.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { createTrip, getTrip, listTrips, updateTripStatus } from '../controllers/tripController.js';
+import { authenticate } from '../middleware/auth.js';
+const router = Router();
+router.use(authenticate);
+router.get('/', listTrips);
+router.post('/', createTrip);
+router.get('/:id', getTrip);
+router.patch('/:id/status', updateTripStatus);
+export default router;

@@ -1,0 +1,43 @@
+digraph Workflow {
+  graph [rankdir=LR, bgcolor="white", pad="0.35", nodesep="0.55", ranksep="0.8", splines=ortho, fontname="DejaVu Sans"];
+  node [shape=box, style="rounded,filled", fontname="DejaVu Sans", fontsize=11, margin="0.18,0.12", color="#39745f", fillcolor="#eef7f2", fontcolor="#17312b"];
+  edge [fontname="DejaVu Sans", fontsize=9, color="#53796c", fontcolor="#35584c", arrowsize=0.7];
+
+  user [label="Traveler / Admin\nWeb UI or Postman", fillcolor="#dff2e8"];
+  api [label="Express REST API\nJSON request validation", fillcolor="#cfeadb"];
+  auth [label="Authentication & Role Check\nJWT + refresh-token revocation"];
+  choose [label="Select Feature", shape=diamond, fillcolor="#fff5d9", color="#b58a29"];
+  spots [label="Tourist Spot Discovery\nSearch, nearby, new and rating"];
+  route [label="Smart Route Service\nScoring + nearest-neighbour order"];
+  alt [label="Alternative Routes\nFastest, scenic and budget"];
+  vehicle [label="Vehicle Cost Service\nCapacity + fare + eco ranking"];
+  guides [label="Guide & Booking Management"];
+  trips [label="Trip Plan & Ordered Stops\nCompletion updates milestones"];
+  analytics [label="Analytics Dashboard\nRatings, routes and users"];
+  db [label="MySQL / MariaDB\n17 normalized tables", shape=cylinder, fillcolor="#e7ecff", color="#5266a6"];
+  logs [label="Activity Log\nMethod, endpoint, status and user", fillcolor="#f2e8ff", color="#7655a3"];
+  response [label="Standard JSON Response\nSuccess / error format", fillcolor="#dff2e8"];
+
+  user -> api [label="HTTP request"];
+  api -> auth [label="protected route"];
+  auth -> choose;
+  api -> choose [label="public route"];
+  choose -> spots;
+  choose -> route;
+  route -> alt;
+  route -> vehicle;
+  choose -> guides;
+  choose -> trips;
+  choose -> analytics;
+  spots -> db;
+  route -> db;
+  alt -> db;
+  vehicle -> db;
+  guides -> db;
+  trips -> db;
+  analytics -> db;
+  api -> logs [label="after response"];
+  logs -> db;
+  db -> response;
+  response -> user;
+}

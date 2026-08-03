@@ -1,0 +1,47 @@
+digraph ERD {
+  graph [rankdir=LR, bgcolor="white", pad="0.3", nodesep="0.45", ranksep="0.75", splines=polyline, fontname="DejaVu Sans", label="Travel Management System Bangladesh — ERD", labelloc=t, fontsize=18, fontcolor="#17312b"];
+  node [shape=record, style="rounded,filled", fontname="DejaVu Sans", fontsize=9, color="#507565", fillcolor="#f3f8f5", fontcolor="#17312b", margin="0.08,0.05"];
+  edge [fontname="DejaVu Sans", fontsize=8, color="#6e8179", arrowsize=0.55];
+
+  users [label="{users|PK id: UUID\l|email UNIQUE\lrole\lstatus\lpassword_hash\l}", fillcolor="#dff2e8"];
+  refresh [label="{refresh_tokens|PK id\lFK user_id\ltoken_hash UNIQUE\lexpires_at\lrevoked_at\l}"];
+  divisions [label="{divisions|PK id\lname UNIQUE\lbn_name\l}", fillcolor="#e6efff"];
+  districts [label="{districts|PK id\lFK division_id\lname\l}", fillcolor="#e6efff"];
+  categories [label="{spot_categories|PK id\lname UNIQUE\lslug UNIQUE\l}"];
+  spots [label="{tourist_spots|PK id\lFK district_id\lFK created_by\lname / slug\llatitude / longitude\lentry_fee\lrating aggregates\lflags / status\l}", fillcolor="#fff4d7"];
+  spotcats [label="{tourist_spot_categories|PK/FK spot_id\lPK/FK category_id\l}"];
+  images [label="{spot_images|PK id\lFK spot_id\limage_url\lis_cover\l}"];
+  ratings [label="{spot_ratings|PK id\lFK spot_id\lFK user_id\lrating 1..5\lUNIQUE spot+user\l}"];
+  vehicles [label="{vehicles|PK id\lFK district_id nullable\lvehicle_type\lcapacity\lfare rates\leco_score\l}", fillcolor="#e9f5ff"];
+  guides [label="{travel_guides|PK id\lFK district_id\llanguages\ldaily_rate\lrating\lstatus\l}", fillcolor="#f2e8ff"];
+  trips [label="{trip_plans|PK id\lFK user_id\lFK vehicle_id\lFK guide_id\ldates / status\ldistance / costs\l}", fillcolor="#ffe8e8"];
+  stops [label="{trip_plan_stops|PK id\lFK trip_plan_id\lFK spot_id\lstop_order\lstatus\l}"];
+  bookings [label="{guide_bookings|PK id\lFK guide_id\lFK user_id\lFK trip_plan_id\lbooking_date\ldays / amount\lstatus\l}"];
+  routelogs [label="{route_recommendation_logs|PK id\lFK user_id\lFK district_id\lstrategy\ldistance / cost\lJSON request / summary\l}", fillcolor="#f5ecff"];
+  milestones [label="{user_milestones|PK id\lFK user_id UNIQUE\lcompleted_trips\lvisited_spots\ltotal_distance\lbadges JSON\l}"];
+  activity [label="{activity_logs|PK id\lFK user_id nullable\laction\lmethod / endpoint\lstatus_code\ldetails JSON\l}", fillcolor="#f5ecff"];
+
+  users -> refresh [label="1 : many"];
+  divisions -> districts [label="1 : many"];
+  districts -> spots [label="1 : many"];
+  users -> spots [label="creates"];
+  spots -> spotcats [label="1 : many"];
+  categories -> spotcats [label="1 : many"];
+  spots -> images [label="1 : many"];
+  spots -> ratings [label="1 : many"];
+  users -> ratings [label="1 : many"];
+  districts -> vehicles [label="0..1 : many"];
+  districts -> guides [label="1 : many"];
+  users -> trips [label="1 : many"];
+  vehicles -> trips [label="0..1 : many"];
+  guides -> trips [label="0..1 : many"];
+  trips -> stops [label="1 : many"];
+  spots -> stops [label="1 : many"];
+  guides -> bookings [label="1 : many"];
+  users -> bookings [label="1 : many"];
+  trips -> bookings [label="0..1 : many"];
+  users -> routelogs [label="0..1 : many"];
+  districts -> routelogs [label="0..1 : many"];
+  users -> milestones [label="1 : 0..1"];
+  users -> activity [label="0..1 : many"];
+}

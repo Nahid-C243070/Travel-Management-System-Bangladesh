@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Travel Management System Bangladesh</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero__content">
+      <p class="eyebrow">Bangladesh Tourism Platform</p>
+      <h1>Travel Management System Bangladesh</h1>
+      <p>Explore tourist spots, compare vehicle costs, create smart routes and manage travel guides.</p>
+      <div class="hero__actions">
+        <button id="loadSpots">Explore Spots</button>
+        <button class="secondary" id="healthCheck">Check API</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <div>
+        <p class="eyebrow">Demo Login</p>
+        <h2>Authenticate and generate a route</h2>
+      </div>
+      <form id="loginForm" class="grid-form">
+        <label>Email<input id="email" type="email" value="user@travelbd.local" required /></label>
+        <label>Password<input id="password" type="password" value="User@123" required /></label>
+        <button type="submit">Login</button>
+      </form>
+      <p id="loginStatus" class="status">Not logged in.</p>
+    </section>
+
+    <section class="panel">
+      <div>
+        <p class="eyebrow">Smart Route</p>
+        <h2>Route from your location</h2>
+      </div>
+      <form id="routeForm" class="grid-form">
+        <label>Start latitude<input id="startLat" type="number" step="any" value="23.8103" required /></label>
+        <label>Start longitude<input id="startLng" type="number" step="any" value="90.4125" required /></label>
+        <label>Maximum stops<input id="maxStops" type="number" min="1" max="10" value="3" /></label>
+        <label>Budget (BDT)<input id="budget" type="number" min="0" value="500" /></label>
+        <button type="submit">Generate Route</button>
+      </form>
+      <pre id="routeOutput">Login first, then generate a route.</pre>
+    </section>
+
+    <section class="panel">
+      <div>
+        <p class="eyebrow">Cost Efficiency</p>
+        <h2>Vehicle recommendation</h2>
+      </div>
+      <form id="costForm" class="grid-form">
+        <label>Distance (km)<input id="distanceKm" type="number" min="1" value="120" /></label>
+        <label>Passengers<input id="passengers" type="number" min="1" value="4" /></label>
+        <label>Priority
+          <select id="priority">
+            <option value="balanced">Balanced</option>
+            <option value="cheapest">Cheapest</option>
+            <option value="eco">Eco-friendly</option>
+            <option value="fastest">Fastest</option>
+          </select>
+        </label>
+        <button type="submit">Estimate Cost</button>
+      </form>
+      <pre id="costOutput">No estimate yet.</pre>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Discover Bangladesh</p>
+          <h2>Featured and new spots</h2>
+        </div>
+      </div>
+      <div id="spotGrid" class="spot-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>API base: <code>/api</code> · Health: <code>/api/health</code></p>
+  </footer>
+  <script src="/app.js"></script>
+</body>
+</html>

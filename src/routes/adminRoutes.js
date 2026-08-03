@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { listLogs } from '../controllers/logController.js';
+import { listUsers, updateUser } from '../controllers/userController.js';
+import { authenticate, authorize } from '../middleware/auth.js';
+const router = Router();
+router.use(authenticate, authorize('ADMIN'));
+router.get('/users', listUsers);
+router.patch('/users/:id', updateUser);
+router.get('/logs', listLogs);
+export default router;

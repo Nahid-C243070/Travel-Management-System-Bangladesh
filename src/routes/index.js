@@ -1,0 +1,24 @@
+import { Router } from 'express';
+import adminRoutes from './adminRoutes.js';
+import analyticsRoutes from './analyticsRoutes.js';
+import authRoutes from './authRoutes.js';
+import categoryRoutes from './categoryRoutes.js';
+import guideRoutes from './guideRoutes.js';
+import locationRoutes from './locationRoutes.js';
+import routeRoutes from './routeRoutes.js';
+import spotRoutes from './spotRoutes.js';
+import tripRoutes from './tripRoutes.js';
+import vehicleRoutes from './vehicleRoutes.js';
+
+const router = Router();
+router.use('/auth', authRoutes);
+router.use('/locations', locationRoutes);
+router.use('/categories', categoryRoutes);
+router.use('/spots', spotRoutes);
+router.use('/routes', routeRoutes);
+router.use('/vehicles', vehicleRoutes);
+router.use('/trips', tripRoutes);
+router.use('/guides', guideRoutes);
+router.use('/analytics', analyticsRoutes);
+router.use('/admin', adminRoutes);
+export default router;
